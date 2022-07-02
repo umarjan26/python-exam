@@ -25,3 +25,21 @@ def create_guest(request):
             return redirect("index")
         return render(request, "create.html", {"form": form})
 
+
+def updates(request, pk):
+    record = get_object_or_404(Guestbook, pk=pk)
+    if request.method == "GET":
+        book = GuestBookForm(initial={
+            "author": record.author,
+            "email": record.email,
+            "text": record.text})
+        return render(request, "update.html", {"form": book})
+    else:
+        form = GuestBookForm(data=request.POST)
+        if form.is_valid():
+            record.author = form.cleaned_data.get("author")
+            record.email = form.cleaned_data.get("email")
+            record.text = form.cleaned_data.get("text")
+            record.save()
+            return redirect("index")
+        return render(request, "update.html", {"form": form})
