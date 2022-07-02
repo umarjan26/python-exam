@@ -5,11 +5,16 @@ from django.contrib import admin
 
 from webapp.models import Guestbook
 
-list_display = ['id', 'author', 'email', 'status', 'created_at']
-list_display_links = ['author']
-list_filter = ['status']
-search_fields = ['author']
-fields = ['author', 'status', 'created_at']
+
+class GuestbookAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'email', 'status', 'created_at']
+    list_display_links = ['author']
+    list_filter = ['status']
+    search_fields = ['author']
+    fields = ['author', 'status', 'created_at']
 
 
-admin.site.register(Guestbook)
+
+
+
+admin.site.register(Guestbook, GuestbookAdmin)
