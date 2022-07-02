@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
-from webapp.models import Guestbook
+from webapp.forms import GuestBookForm
+from webapp.models import Guestbook, STATUS
 
 
 def index(request):
@@ -12,11 +13,15 @@ def index(request):
 
 def create_guest(request):
     if request.method == "GET":
-        return render(request, "create.html", {'statuses': STATUS_CHOICES})
+        book = GuestBookForm()
+        return render(request, "create.html", {'form': book})
     else:
-        task = request.POST.get("task")
-        status = request.POST.get("status")
-        created_at = request.POST.get("created_at")
-        new_task = Task.objects.create(task=task, status=status, created_at=created_at)
-        context = {"task": new_task}
-        return redirect("index_view", pk=new_task.pk)
+        form = GuestBookForm(data=request.POST)
+        if form.is_valid():
+            author = form.cleaned_data.get("author")
+            email = form.cleaned_data.get("email")
+            text = form.cleaned_data.get("text")
+            Guestbook.objects.create(author=author, email=email, text=text)
+            return redirect("index")
+        return render(request, "create.html", {"form": form})
+
