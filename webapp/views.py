@@ -43,3 +43,12 @@ def updates(request, pk):
             record.save()
             return redirect("index")
         return render(request, "update.html", {"form": form})
+
+
+def delete(request, pk):
+    book = get_object_or_404(Guestbook, pk=pk)
+    if request.method == "GET":
+        return render(request, "delete.html", {"book": book})
+    else:
+        book.delete()
+        return redirect("index")

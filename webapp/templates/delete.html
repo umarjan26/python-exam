@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}удалить запись{% endblock %}
+{% block content %}
+<form action="" method="post">
+ {% csrf_token %}
+    <div class="d-grid gap-2">
+    <h1>Вы уверены что хотите удалить  {{ book.author }} ?</h1>
+    <button class="btn btn-warning" type="button">Да</button>
+</form>
+<a href="{% url "index" %}" class="btn btn-primary" type="button">Нет</a>
+{% endblock %}
+<div/>
+
