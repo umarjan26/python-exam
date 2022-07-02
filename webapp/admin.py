@@ -11,10 +11,7 @@ class GuestbookAdmin(admin.ModelAdmin):
     list_display_links = ['author']
     list_filter = ['status']
     search_fields = ['author']
-    fields = ['author', 'status', 'created_at']
-
-
-
-
+    fields = ['author', 'email', 'status', 'created_at', 'updated_at', 'text']
+    readonly_fields = ['created_at', 'updated_at']
 
 admin.site.register(Guestbook, GuestbookAdmin)
